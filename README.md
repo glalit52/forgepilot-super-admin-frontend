@@ -8,6 +8,7 @@ What staff can do here:
 - **Workspaces**: search, open one, see its members, size and spend this month. Suspend it (read-only for the customer), restore it, or set its plan by hand (enterprise contracts, goodwill).
 - **Users**: search by name or email and see which workspaces they belong to.
 - **Background jobs**: failed, queued and running jobs, with a retry button for failed ones.
+- **Single sign-on domains**: approve or turn off the email domains Enterprise customers want to use with their company login.
 - **Staff audit log**: everything the team did here, who did it and why.
 
 What it deliberately cannot do: read a customer's code, logs or credentials, or sign in as a customer.
@@ -26,6 +27,7 @@ Access is decided by the backend, not by this app:
 
 1. The person's email is listed in the backend's `PLATFORM_ADMIN_EMAILS` setting.
 2. They have a normal ForgePilot account with that email, and the email is verified.
+3. Two-factor sign-in is on. The first time a staff member signs in here, the app walks them through adding ForgePilot to an authenticator app; after that every sign-in asks for the 6-digit code.
 
 Anyone else who signs in here is told they have no access and is signed out again.
 
@@ -67,5 +69,5 @@ BACKEND_URL=https://api.example.com pnpm build
 ## Not built yet
 
 - Automated browser tests (they need a backend running next to them in CI).
-- Two-factor sign-in for staff.
+- A QR code for two-factor setup (today the setup key is typed or opened as a link).
 - Deleting a workspace or user from here, impersonation and refunds: intentionally left out for now.

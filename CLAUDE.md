@@ -16,8 +16,8 @@ Internal tool for the ForgePilot team. Screens only: every call goes to `forgepi
 ## Layout
 
 ```
-app/login            staff sign-in (signs non-staff accounts back out)
-app/(admin)          shell + overview, workspaces, users, jobs, audit
+app/login            staff sign-in: password, then two-factor setup or code (signs non-staff accounts back out)
+app/(admin)          shell + overview, workspaces, users, single sign-on domains, jobs, audit
 components/ui        primitives (same design system as the customer app)
 components/common    page header, stat, loading/empty/error states
 lib/api.ts           schemas, queries and actions for /admin/*
