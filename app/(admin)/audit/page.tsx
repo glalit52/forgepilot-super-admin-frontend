@@ -18,6 +18,8 @@ const ACTION_LABEL: Record<string, string> = {
   "workspace.restored": "Restored workspace",
   "workspace.plan_set": "Set plan",
   "job.retried": "Retried job",
+  "sso.domain_approved": "Approved single sign-on domain",
+  "sso.domain_rejected": "Turned off single sign-on domain",
 };
 
 export default function AuditPage() {

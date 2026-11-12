@@ -192,8 +192,52 @@ function useAction<I, O>(fn: (input: I) => Promise<O>) {
 export const useLogin = () =>
   useMutation({
     mutationFn: (input: { email: string; password: string }) =>
-      request(z.object({ user: z.object({ name: z.string() }) }), "POST", "/auth/login", input),
+      request(
+        z.object({
+          user: z.object({ name: z.string() }),
+          twoFactorRequired: z.boolean().optional(),
+        }),
+        "POST",
+        "/auth/login",
+        input,
+      ),
   });
+
+// Two-factor sign-in: every staff account must have an authenticator app.
+const TwoFactorStatusSchema = z.object({
+  enabled: z.boolean(),
+  verified: z.boolean(),
+  staffEligible: z.boolean(),
+});
+export const twoFactorStatus = () => request(TwoFactorStatusSchema, "GET", "/auth/2fa/status");
+export const twoFactorSetup = () =>
+  request(z.object({ secret: z.string(), otpauthUrl: z.string() }), "POST", "/auth/2fa/setup");
+export const twoFactorEnable = (code: string) =>
+  request(OkSchema, "POST", "/auth/2fa/enable", { code });
+export const twoFactorVerify = (code: string) =>
+  request(OkSchema, "POST", "/auth/2fa/verify", { code });
+
+export const SsoDomainSchema = z.object({
+  domain: z.string(),
+  workspaceId: z.string(),
+  workspaceName: z.string(),
+  provider: z.string(),
+  status: z.enum(["pending", "approved", "rejected"]),
+  requestedBy: z.string(),
+  requestedAt: z.string(),
+});
+export const useSsoDomains = () =>
+  useQuery({
+    queryKey: ["sso-domains"],
+    queryFn: () => request(z.array(SsoDomainSchema), "GET", "/admin/sso-domains"),
+  });
+export const useDecideSsoDomain = () =>
+  useAction((input: { domain: string; decision: "approved" | "rejected"; reason: string }) =>
+    request(OkSchema, "POST", `/admin/sso-domains/${encodeURIComponent(input.domain)}/decision`, {
+      decision: input.decision,
+      reason: input.reason,
+    }),
+  );
 export const useLogout = () => {
   const qc = useQueryClient();
   return useMutation({

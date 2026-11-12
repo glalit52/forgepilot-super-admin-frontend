@@ -6,6 +6,7 @@ import {
   ActivityIcon,
   BuildingIcon,
   HistoryIcon,
+  KeyRoundIcon,
   LayoutDashboardIcon,
   LogOutIcon,
   ShieldIcon,
@@ -20,6 +21,7 @@ const NAV = [
   { href: "/", label: "Overview", icon: LayoutDashboardIcon },
   { href: "/workspaces", label: "Workspaces", icon: BuildingIcon },
   { href: "/users", label: "Users", icon: UsersIcon },
+  { href: "/sso", label: "Single sign-on", icon: KeyRoundIcon },
   { href: "/jobs", label: "Background jobs", icon: ActivityIcon },
   { href: "/audit", label: "Staff audit log", icon: HistoryIcon },
 ];
